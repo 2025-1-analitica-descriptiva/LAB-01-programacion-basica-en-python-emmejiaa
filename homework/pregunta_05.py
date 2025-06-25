@@ -15,3 +15,20 @@ def pregunta_05():
     [('A', 9, 2), ('B', 9, 1), ('C', 9, 0), ('D', 8, 3), ('E', 9, 1)]
 
     """
+    valores = {}
+    with open("files/input/data.csv", "r", encoding="utf-8") as archivo:
+        for linea in archivo:
+            columnas = linea.strip().split("\t")
+            letra = columnas[0]
+            numero = int(columnas[1])
+
+            if letra not in valores:
+                valores[letra] = [numero, numero]  # [max, min]
+            else:
+                if numero > valores[letra][0]:
+                    valores[letra][0] = numero
+                if numero < valores[letra][1]:
+                    valores[letra][1] = numero
+
+    resultado = [(letra, valores[letra][0], valores[letra][1]) for letra in sorted(valores)]
+    return resultado
